@@ -1,0 +1,11 @@
+.main-content {
+  margin-left: 60px; /* Fixed margin for permanently collapsed sidebar */
+  padding: 20px;
+  transition: none;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 60px; /* Consistent margin across screen sizes */
+  }
+}

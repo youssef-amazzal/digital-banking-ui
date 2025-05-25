@@ -8,18 +8,16 @@ import { NotificationService } from '../../../core/services/notification.service
 import { BankAccount, CurrentBankAccount, SavingBankAccount } from '../../../core/models/account.model';
 import { Customer } from '../../../core/models/customer.model';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
-import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-customer-accounts',
   standalone: true,
   imports: [
     CommonModule,
-    RouterModule, 
+    RouterModule,
     ReactiveFormsModule,
-    LoadingSpinnerComponent,
-    ConfirmationModalComponent
-  ],
+    LoadingSpinnerComponent
+],
   templateUrl: './customer-accounts.component.html',
   styleUrl: './customer-accounts.component.css'
 })

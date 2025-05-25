@@ -21,6 +21,9 @@ body {
   color: var(--text-color);
   min-height: 100vh;
   padding-bottom: 2rem; /* Add padding to bottom of page */
+  overflow-x: hidden;
+  transition: padding-left 0.3s ease;
+  position: relative;
 }
 
 /* Improve container padding */

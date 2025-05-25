@@ -10,6 +10,7 @@ export const routes: Routes = [
   { path: 'customers/new', component: CustomerFormComponent },
   { path: 'customers/:id/edit', component: CustomerFormComponent },
   { path: 'customers/:id/accounts', component: CustomerAccountsComponent },
+  { path: 'accounts', redirectTo: '/customers', pathMatch: 'full' }, // Placeholder until accounts list is implemented
   { path: 'accounts/:id/operations', component: AccountOperationsComponent },
-  { path: '**', redirectTo: '/customers', pathMatch: 'full' }
+  { path: '**', redirectTo: '/customers' }
 ];

@@ -22,7 +22,6 @@ export class AccountService {
   }
 
   getCustomerAccounts(customerId: number): Observable<BankAccount[]> {
-    // Assuming backend provides this endpoint, or we'd filter client-side
     return this.http.get<BankAccount[]>(`${this.apiUrl}/customers/${customerId}/accounts`);
   }
 
