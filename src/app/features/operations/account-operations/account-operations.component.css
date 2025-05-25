@@ -1,0 +1,27 @@
+.operation-debit {
+  color: var(--danger-color);
+}
+
+.operation-credit {
+  color: var(--success-color);
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.35em 0.65em;
+}
+
+.form-section {
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  margin-bottom: 1.5rem;
+}
+
+.tab-content {
+  padding-top: 1rem;
+}
+
+.operation-type-selector {
+  margin-bottom: 1.5rem;
+}

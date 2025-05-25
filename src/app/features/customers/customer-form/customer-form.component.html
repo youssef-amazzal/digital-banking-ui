@@ -1,0 +1,107 @@
+<div class="container">
+  <div class="row mb-4">
+    <div class="col">
+      <div
+        class="page-header d-flex justify-content-between align-items-center"
+      >
+        <h1>{{ isEditMode ? "Edit Customer" : "Create New Customer" }}</h1>
+        <button class="btn btn-outline-secondary" [routerLink]="['/customers']">
+          <i class="bi bi-arrow-left btn-icon"></i>Back to Customers
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8 col-lg-6 mx-auto">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title mb-4">
+            {{
+              isEditMode
+                ? "Update Customer Information"
+                : "Customer Information"
+            }}
+          </h5>
+
+          <ng-container *ngIf="loading">
+            <app-loading-spinner
+              message="Loading customer data..."
+            ></app-loading-spinner>
+          </ng-container>
+
+          <ng-container *ngIf="!loading">
+            <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
+              <!-- Name field -->
+              <div class="mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  formControlName="name"
+                  [ngClass]="{ 'is-invalid': submitted && name?.errors }"
+                  placeholder="Enter customer full name"
+                />
+
+                <div
+                  *ngIf="submitted && name?.errors"
+                  class="form-invalid-feedback"
+                >
+                  <div *ngIf="name?.errors?.['required']">Name is required</div>
+                  <div *ngIf="name?.errors?.['minlength']">
+                    Name must be at least 3 characters
+                  </div>
+                </div>
+              </div>
+
+              <!-- Email field -->
+              <div class="mb-4">
+                <label for="email" class="form-label">Email Address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  formControlName="email"
+                  [ngClass]="{ 'is-invalid': submitted && email?.errors }"
+                  placeholder="Enter customer email"
+                />
+
+                <div
+                  *ngIf="submitted && email?.errors"
+                  class="form-invalid-feedback"
+                >
+                  <div *ngIf="email?.errors?.['required']">
+                    Email is required
+                  </div>
+                  <div *ngIf="email?.errors?.['email']">
+                    Please enter a valid email address
+                  </div>
+                </div>
+              </div>
+
+              <!-- Form buttons -->
+              <div class="d-grid gap-2 d-md-flex">
+                <button
+                  type="submit"
+                  class="btn btn-primary flex-grow-1"
+                  [disabled]="loading"
+                >
+                  <i class="bi bi-save btn-icon"></i>
+                  {{ isEditMode ? "Update Customer" : "Create Customer" }}
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary flex-grow-1"
+                  [routerLink]="['/customers']"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
