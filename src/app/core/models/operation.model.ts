@@ -14,7 +14,7 @@ export interface AccountHistory {
   currentPage: number;
   totalPages: number;
   pageSize: number;
-  accountOperations: AccountOperation[];
+  accountOperationDTOS: AccountOperation[];
 }
 
 export interface DebitRequest {

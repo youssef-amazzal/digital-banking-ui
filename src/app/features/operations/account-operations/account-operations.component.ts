@@ -69,14 +69,13 @@ export class AccountOperationsComponent implements OnInit {
       }
     });
   }
-
   loadAccountOperations(page: number = 0): void {
     this.loading = true;
     this.currentPage = page;
     this.accountService.getAccountPageHistory(this.accountId, page, this.pageSize).subscribe({
       next: (data) => {
         this.accountHistory = data;
-        this.operations = data.accountOperations;
+        this.operations = data.accountOperationDTOS || [];
         this.totalPages = data.totalPages;
         this.loading = false;
       },
