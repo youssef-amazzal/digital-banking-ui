@@ -1,11 +1,22 @@
 .main-content {
   margin-left: 60px; /* Fixed margin for permanently collapsed sidebar */
-  padding: 20px;
   transition: none;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.main-container {
+  padding: 1.5rem;
+  max-width: 100%;
+  height: 100%;
 }
 
 @media (max-width: 768px) {
   .main-content {
     margin-left: 60px; /* Consistent margin across screen sizes */
+  }
+  
+  .main-container {
+    padding: 1rem;
   }
 }
