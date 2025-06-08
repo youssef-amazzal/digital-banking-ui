@@ -43,11 +43,10 @@
                   </span>
                 </p>
               </div>
-              <div class="col-md-6">
-                <p>
+              <div class="col-md-6">                <p>
                   <strong>Customer:</strong>
                   {{
-                    account.customerName || "Customer ID " + account.customerId
+                    account.customerDTO?.name || "Customer ID " + account.customerDTO?.id || "Unknown Customer"
                   }}
                 </p>
                 <p>

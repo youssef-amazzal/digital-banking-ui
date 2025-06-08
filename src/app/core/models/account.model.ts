@@ -1,12 +1,17 @@
 export type AccountStatus = 'CREATED' | 'ACTIVATED' | 'SUSPENDED';
 
+export interface Customer {
+  id: number;
+  name: string;
+  email: string;
+}
+
 export interface BankAccount {
   id: string;
   balance: number;
   createdAt: Date;
   status: AccountStatus;
-  customerId: number;
-  customerName?: string;
+  customerDTO: Customer | null;
   type: string;
 }
 

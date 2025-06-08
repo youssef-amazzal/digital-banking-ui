@@ -1,0 +1,140 @@
+<div class="container">
+  <div class="row mb-4">
+    <div class="col">
+      <div class="page-header d-flex justify-content-between align-items-center">
+        <h1>Bank Accounts</h1>
+        <div class="d-flex gap-2">
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="includeInactive"
+              [checked]="includeInactive"
+              (change)="toggleIncludeInactive()"
+            />
+            <label class="form-check-label" for="includeInactive">
+              Include Inactive Accounts
+            </label>
+          </div>
+          <button class="btn btn-outline-primary" [routerLink]="['/customers']">
+            <i class="bi bi-people btn-icon"></i>View Customers
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="loading">
+    <app-loading-spinner message="Loading accounts..."></app-loading-spinner>
+  </ng-container>
+
+  <ng-container *ngIf="!loading">
+    <div class="row" *ngIf="accounts.length === 0">
+      <div class="col">
+        <div class="card">
+          <div class="card-body text-center">
+            <i class="bi bi-bank display-1 text-muted mb-3"></i>
+            <h5 class="card-title">No Accounts Found</h5>
+            <p class="card-text text-muted">
+              {{ includeInactive ? 'No accounts exist in the system.' : 'No active accounts found. Try including inactive accounts.' }}
+            </p>
+            <button class="btn btn-primary" [routerLink]="['/customers']">
+              <i class="bi bi-people btn-icon"></i>Go to Customers
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="accounts.length > 0">
+      <div class="col">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="mb-0">
+              <i class="bi bi-bank me-2"></i>All Bank Accounts
+              <span class="badge bg-secondary ms-2">{{ accounts.length }}</span>
+            </h5>
+          </div>
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table table-hover mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Account ID</th>
+                    <th>Type</th>
+                    <th>Customer</th>
+                    <th>Balance</th>
+                    <th>Status</th>
+                    <th>Created Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let account of accounts">
+                    <td>
+                      <code class="text-primary">{{ account.id }}</code>
+                    </td>
+                    <td>
+                      <span class="badge" [ngClass]="account.type === 'CURRENT' ? 'bg-primary' : 'bg-info'">
+                        <i class="bi" [ngClass]="account.type === 'CURRENT' ? 'bi-credit-card' : 'bi-piggy-bank'"></i>
+                        {{ account.type === 'CURRENT' ? 'Current' : 'Saving' }}
+                      </span>
+                      <div class="small text-muted" *ngIf="isCurrentAccount(account)">
+                        Overdraft: ${{ account.overDraft.toFixed(2) }}
+                      </div>
+                      <div class="small text-muted" *ngIf="isSavingAccount(account)">
+                        Interest Rate: {{ account.interestRate }}%
+                      </div>
+                    </td>
+                    <td>
+                      <div *ngIf="account.customerDTO; else noCustomer">
+                        <strong>{{ account.customerDTO.name }}</strong>
+                        <div class="small text-muted">ID: {{ account.customerDTO.id }}</div>
+                        <div class="small text-muted">{{ account.customerDTO.email }}</div>
+                      </div>
+                      <ng-template #noCustomer>
+                        <span class="text-muted fst-italic">No Customer Assigned</span>
+                      </ng-template>
+                    </td>
+                    <td>
+                      <span class="fw-bold" [ngClass]="{ 'text-danger': account.balance < 0, 'text-success': account.balance > 0 }">
+                        ${{ account.balance.toFixed(2) }}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="badge rounded-pill" [ngClass]="getStatusBadgeClass(account.status)">
+                        {{ account.status }}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="text-muted">{{ account.createdAt | date:'short' }}</span>
+                    </td>
+                    <td>
+                      <div class="btn-group btn-group-sm" role="group">
+                        <button
+                          class="btn btn-outline-primary"
+                          [routerLink]="['/accounts', account.id, 'operations']"
+                          title="View Operations"
+                        >
+                          <i class="bi bi-list-ul"></i>
+                        </button>
+                        <button
+                          class="btn btn-outline-info"
+                          [routerLink]="['/customers', account.customerDTO?.id, 'accounts']"
+                          title="View Customer Accounts"
+                          [disabled]="!account.customerDTO"
+                        >
+                          <i class="bi bi-person"></i>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
