@@ -1,4 +1,4 @@
-export type AccountStatus = 'CREATED' | 'ACTIVATED' | 'SUSPENDED';
+export type AccountStatus = 'CREATED' | 'ACTIVATED' | 'SUSPENDED' | 'CLOSED';
 
 export interface Customer {
   id: number;

@@ -50,13 +50,13 @@
                   }}
                 </p>
                 <p>
-                  <strong>Status:</strong>
-                  <span
+                  <strong>Status:</strong>                  <span
                     class="badge rounded-pill"
                     [ngClass]="{
                       'bg-info': account.status === 'CREATED',
                       'bg-success': account.status === 'ACTIVATED',
-                      'bg-warning': account.status === 'SUSPENDED'
+                      'bg-warning': account.status === 'SUSPENDED',
+                      'bg-danger': account.status === 'CLOSED'
                     }"
                     >{{ account.status }}</span
                   >

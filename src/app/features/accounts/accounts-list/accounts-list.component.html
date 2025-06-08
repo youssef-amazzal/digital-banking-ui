@@ -100,11 +100,35 @@
                       <span class="fw-bold" [ngClass]="{ 'text-danger': account.balance < 0, 'text-success': account.balance > 0 }">
                         ${{ account.balance.toFixed(2) }}
                       </span>
-                    </td>
-                    <td>
-                      <span class="badge rounded-pill" [ngClass]="getStatusBadgeClass(account.status)">
-                        {{ account.status }}
-                      </span>
+                    </td>                    <td>
+                      <div class="d-flex align-items-center">
+                        <span class="badge rounded-pill me-2" [ngClass]="getStatusBadgeClass(account.status)">
+                          <i [class]="getStatusInfo(account.status).icon" class="me-1"></i>
+                          {{ getStatusInfo(account.status).label }}
+                        </span>
+                        <div class="dropdown" *ngIf="getValidTransitions(account).length > 0">
+                          <button class="btn btn-outline-secondary btn-sm dropdown-toggle" 
+                                  type="button" 
+                                  [id]="'statusDropdown' + account.id"
+                                  data-bs-toggle="dropdown" 
+                                  aria-expanded="false"
+                                  title="Change Status">
+                            <i class="bi bi-arrow-repeat"></i>
+                          </button>
+                          <ul class="dropdown-menu" [attr.aria-labelledby]="'statusDropdown' + account.id">
+                            <li *ngFor="let transition of getValidTransitions(account)">
+                              <a class="dropdown-item" 
+                                 (click)="initiateStatusChange(account, transition.status)"
+                                 [title]="transition.description">
+                                <i [class]="transition.icon" class="me-2"></i>{{ transition.label }}
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                        <span *ngIf="getValidTransitions(account).length === 0" 
+                              class="text-muted small"
+                              title="No status changes allowed">
+                          <i class="bi bi-lock"></i>                        </span>                      </div>
                     </td>
                     <td>
                       <span class="text-muted">{{ account.createdAt | date:'short' }}</span>
@@ -132,9 +156,20 @@
                 </tbody>
               </table>
             </div>
-          </div>
-        </div>
+          </div>        </div>
       </div>
     </div>
   </ng-container>
 </div>
+
+<!-- Status Change Confirmation Modal -->
+<app-confirmation-modal
+  #statusConfirmModal
+  modalId="statusConfirmModal"
+  [title]="confirmationTitle"
+  [message]="confirmationMessage"
+  confirmButtonText="Change Status"
+  cancelButtonText="Cancel"
+  (confirm)="onStatusChangeConfirmed()"
+  (cancel)="onStatusChangeCancelled()">
+</app-confirmation-modal>

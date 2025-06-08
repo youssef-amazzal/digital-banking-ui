@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BankAccount } from '../models/account.model';
+import { BankAccount, AccountStatus } from '../models/account.model';
 import { AccountHistory, CreditRequest, DebitRequest, TransferRequest } from '../models/operation.model';
 import { API_BASE_URL } from './api.config';
 
@@ -59,5 +59,9 @@ export class AccountService {
 
   transfer(request: TransferRequest): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/accounts/transfer`, request);
+  }
+
+  changeAccountStatus(accountId: string, status: AccountStatus): Observable<BankAccount> {
+    return this.http.put<BankAccount>(`${this.apiUrl}/accounts/${accountId}/status?status=${status}`, {});
   }
 }
