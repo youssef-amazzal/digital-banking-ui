@@ -6,7 +6,7 @@
 }
 
 .main-container {
-  padding: 1.5rem;
+  padding: 0; /* Remove padding here, let pages handle their own spacing */
   max-width: 100%;
   height: 100%;
 }
@@ -17,6 +17,6 @@
   }
   
   .main-container {
-    padding: 1rem;
+    padding: 0; /* Remove padding here too */
   }
 }

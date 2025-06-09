@@ -1,9 +1,8 @@
 <div class="container">
-  <div class="row mb-4">
+  <!-- Page Header -->
+  <div class="row mb-3">
     <div class="col">
-      <div
-        class="page-header d-flex justify-content-between align-items-center"
-      >
+      <div class="d-flex justify-content-between align-items-center">
         <h1>Account Operations</h1>
         <button class="btn btn-outline-secondary" [routerLink]="['/customers']">
           <i class="bi bi-arrow-left btn-icon"></i>Back to Customers
@@ -11,16 +10,14 @@
       </div>
     </div>
   </div>
-
   <ng-container *ngIf="loading && !account">
     <app-loading-spinner
       message="Loading account details..."
     ></app-loading-spinner>
   </ng-container>
-
   <ng-container *ngIf="account">
     <!-- Account Details -->
-    <div class="row mb-4">
+    <div class="row mb-3">
       <div class="col">
         <div class="card">
           <div class="card-body">
@@ -65,19 +62,16 @@
                   <strong>Created Date:</strong>
                   {{ account.createdAt | date : "medium" }}
                 </p>
-              </div>
-            </div>
+              </div>            </div>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- New Operation Form -->
-    <div class="row mb-4">
+    </div>    <!-- New Operation Form -->
+    <div class="row mb-3">
       <div class="col">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Perform Operation</h5>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Perform Operation</h5>
 
             <div class="mb-3">
               <div class="btn-group w-100" role="group">
@@ -206,19 +200,16 @@
                     ? "Credit Amount"
                     : "Transfer Amount"
                 }}
-              </button>
-            </form>
+              </button>            </form>
           </div>
         </div>
       </div>
-    </div>
-
-    <!-- Operations History -->
-    <div class="row">
+    </div>    <!-- Operations History -->
+    <div class="row mb-3">
       <div class="col">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Operations History</h5>
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Operations History</h5>
 
             <ng-container *ngIf="loading && account">
               <app-loading-spinner
@@ -277,11 +268,9 @@
                     (pageChange)="onPageChange($event)"
                   >
                   </app-pagination>
-                </div>
-              </div>
+                </div>            </div>
             </ng-container>
-          </div>
-        </div>
+          </div>        </div>
       </div>
     </div>
   </ng-container>

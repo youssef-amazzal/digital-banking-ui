@@ -17,7 +17,7 @@ import { LoadingSpinnerComponent } from '../../../shared/components/loading-spin
     RouterModule,
     ReactiveFormsModule,
     LoadingSpinnerComponent
-],
+  ],
   templateUrl: './customer-accounts.component.html',
   styleUrl: './customer-accounts.component.css'
 })

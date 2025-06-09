@@ -1,43 +1,45 @@
-<div class="container">
-  <div class="row mb-4">
-    <div class="col">
-      <div
-        class="page-header d-flex justify-content-between align-items-center"
-      >
-        <h1>Customer Management</h1>
-        <a [routerLink]="['/customers/new']" class="btn btn-primary">
-          <i class="bi bi-plus-circle btn-icon"></i>Add New Customer
-        </a>
+<div class="page-wrapper">
+  <div class="page-header">
+    <div class="row">
+      <div class="col">
+        <div class="d-flex justify-content-between align-items-center">
+          <h1>Customer Management</h1>
+          <a [routerLink]="['/customers/new']" class="btn btn-primary">
+            <i class="bi bi-plus-circle btn-icon"></i>Add New Customer
+          </a>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="row mb-4">
-    <div class="col-md-6">
-      <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search customers..."
-          [(ngModel)]="searchKeyword"
-          (keyup.enter)="onSearch()"
-        />
-        <button
-          class="btn btn-outline-secondary"
-          type="button"
-          (click)="onSearch()"
-        >
-          <i class="bi bi-search"></i>
-        </button>
+  <div class="content-section">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="input-group">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search customers..."
+            [(ngModel)]="searchKeyword"
+            (keyup.enter)="onSearch()"
+          />
+          <button
+            class="btn btn-outline-secondary"
+            type="button"
+            (click)="onSearch()"
+          >
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
       </div>
     </div>
   </div>
-
-  <div class="row">
-    <div class="col">
-      <div class="card">
-        <div class="card-body p-4">
-          <h2 class="card-title h5 mb-3">Customers List</h2>
+  <div class="content-section">
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-body p-4">
+            <h2 class="card-title h5 mb-3">Customers List</h2>
 
           <ng-container *ngIf="loading">
             <app-loading-spinner
@@ -106,14 +108,20 @@
                 >
                   <i class="bi bi-plus-circle me-2"></i>Add New Customer
                 </a>
-              </div>
-            </ng-template>
+              </div>            </ng-template>
           </ng-container>
         </div>
       </div>
     </div>
   </div>
-</div>
+
+  <!-- Pagination -->
+  <div class="page-section" *ngIf="!loading && customers.length > 0">    <app-pagination
+      [currentPage]="currentPage + 1"
+      [totalPages]="totalPages"
+      (pageChange)="onPageChange($event)"
+    ></app-pagination>
+  </div>
 
 <!-- Delete Confirmation Modal -->
 <app-confirmation-modal
@@ -128,3 +136,4 @@
   (confirm)="deleteCustomer()"
 >
 </app-confirmation-modal>
+</div>

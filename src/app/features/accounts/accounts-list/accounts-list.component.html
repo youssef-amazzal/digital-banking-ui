@@ -1,7 +1,8 @@
 <div class="container">
-  <div class="row mb-4">
+  <!-- Page Header -->
+  <div class="row mb-3">
     <div class="col">
-      <div class="page-header d-flex justify-content-between align-items-center">
+      <div class="d-flex justify-content-between align-items-center">
         <h1>Bank Accounts</h1>
         <div class="d-flex gap-2">
           <div class="form-check form-switch">
@@ -23,13 +24,11 @@
       </div>
     </div>
   </div>
-
   <ng-container *ngIf="loading">
     <app-loading-spinner message="Loading accounts..."></app-loading-spinner>
   </ng-container>
-
   <ng-container *ngIf="!loading">
-    <div class="row" *ngIf="accounts.length === 0">
+    <div class="row mb-3" *ngIf="accounts.length === 0">
       <div class="col">
         <div class="card">
           <div class="card-body text-center">
@@ -43,10 +42,7 @@
             </button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="row" *ngIf="accounts.length > 0">
+      </div>    </div>    <div class="row mb-3" *ngIf="accounts.length > 0">
       <div class="col">
         <div class="card">
           <div class="card-header">
@@ -152,15 +148,14 @@
                         </button>
                       </div>
                     </td>
-                  </tr>
-                </tbody>
+                  </tr>                </tbody>
               </table>
             </div>
-          </div>        </div>
+          </div>
+        </div>
       </div>
     </div>
   </ng-container>
-</div>
 
 <!-- Status Change Confirmation Modal -->
 <app-confirmation-modal
@@ -169,7 +164,8 @@
   [title]="confirmationTitle"
   [message]="confirmationMessage"
   confirmButtonText="Change Status"
-  cancelButtonText="Cancel"
+    cancelButtonText="Cancel"
   (confirm)="onStatusChangeConfirmed()"
   (cancel)="onStatusChangeCancelled()">
 </app-confirmation-modal>
+</div>

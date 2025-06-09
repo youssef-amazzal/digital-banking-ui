@@ -7,16 +7,17 @@ import { CustomerService } from '../../../core/services/customer.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { LoadingSpinnerComponent } from '../../../shared/components/loading-spinner/loading-spinner.component';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { PaginationComponent } from '../../../shared/components/pagination/pagination.component';
 
 @Component({
   selector: 'app-customers-list',
-  standalone: true,
-  imports: [
+  standalone: true,  imports: [
     CommonModule, 
     RouterModule, 
     FormsModule, 
     LoadingSpinnerComponent, 
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    PaginationComponent
   ],
   templateUrl: './customers-list.component.html',
   styleUrl: './customers-list.component.css'
@@ -26,6 +27,12 @@ export class CustomersListComponent implements OnInit {
   loading = false;
   searchKeyword = '';
   customerToDelete: Customer | null = null;
+  
+  // Pagination properties
+  currentPage = 0;
+  totalPages = 0;
+  totalElements = 0;
+  pageSize = 10;
   
   constructor(
     private customerService: CustomerService,
@@ -72,8 +79,7 @@ export class CustomersListComponent implements OnInit {
   confirmDelete(customer: Customer): void {
     this.customerToDelete = customer;
   }
-  
-  deleteCustomer(): void {
+    deleteCustomer(): void {
     if (!this.customerToDelete) return;
     
     this.loading = true;
@@ -92,5 +98,10 @@ export class CustomersListComponent implements OnInit {
         this.customerToDelete = null;
       }
     });
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page - 1;
+    this.loadCustomers();
   }
 }
