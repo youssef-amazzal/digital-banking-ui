@@ -215,10 +215,9 @@ export class DashboardComponent implements OnInit {
     private customerService: CustomerService,
     private notificationService: NotificationService
   ) {}  ngOnInit(): void {
+    console.log('DashboardComponent: ngOnInit triggered, loading dashboard data...');
     this.loadDashboardData();
-  }
-
-  loadDashboardData(): void {
+  }loadDashboardData(): void {
     this.loading = true;
     
     forkJoin({
@@ -232,6 +231,7 @@ export class DashboardComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
+        console.error('Error loading dashboard data:', error);
         this.notificationService.showError('Error', 'Failed to load dashboard data');
         this.loading = false;
       }
@@ -247,11 +247,11 @@ export class DashboardComponent implements OnInit {
     this.stats.savingAccounts = accounts.filter(acc => acc.type === 'SAVING').length;
     this.stats.suspendedAccounts = accounts.filter(acc => acc.status === 'SUSPENDED').length;
     this.stats.closedAccounts = accounts.filter(acc => acc.status === 'CLOSED').length;
-  }
-  private setRecentData(customers: Customer[], accounts: BankAccount[]): void {
-    // Sort customers by ID (assuming higher ID means more recent)
+  }  private setRecentData(customers: Customer[], accounts: BankAccount[]): void {
+    // Sort customers by creation date (most recent first)
     this.recentCustomers = customers
-      .sort((a, b) => b.id - a.id)
+      .filter(customer => customer.createdAt) // Filter out customers without creation date
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .slice(0, 5);
 
     // Sort accounts by creation date (most recent first)
@@ -321,21 +321,33 @@ export class DashboardComponent implements OnInit {
         borderWidth: 1
       }]
     };
-  }
-
-  private updateTrendCharts(customers: Customer[], accounts: BankAccount[]): void {
+  }  private updateTrendCharts(customers: Customer[], accounts: BankAccount[]): void {
     // Generate last 6 months of data
     const months: MonthlyData[] = [];
-    const now = new Date();
-    
-    for (let i = 5; i >= 0; i--) {
+    const now = new Date();      for (let i = 5; i >= 0; i--) {
       const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
       const monthStr = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
       
-      // Simulate monthly data based on existing data
-      const accountsForMonth = Math.floor(accounts.length * (0.8 + Math.random() * 0.4) / 6);
-      const customersForMonth = Math.floor(customers.length * (0.8 + Math.random() * 0.4) / 6);
-      const balanceForMonth = accounts.reduce((sum, acc) => sum + acc.balance, 0) * (0.7 + Math.random() * 0.6) / 6;
+      // Count accounts created in this month
+      const accountsInMonth = accounts.filter(account => {
+        if (!account.createdAt) return false;
+        const accountDate = new Date(account.createdAt);
+        return accountDate.getFullYear() === date.getFullYear() && 
+               accountDate.getMonth() === date.getMonth();
+      });
+      const accountsForMonth = accountsInMonth.length;
+      
+      // Count customers created in this month
+      const customersInMonth = customers.filter(customer => {
+        if (!customer.createdAt) return false;
+        const customerDate = new Date(customer.createdAt);
+        return customerDate.getFullYear() === date.getFullYear() && 
+               customerDate.getMonth() === date.getMonth();
+      });
+      const customersForMonth = customersInMonth.length;
+      
+      // Calculate balance for accounts created in this month
+      const balanceForMonth = accountsInMonth.reduce((sum, acc) => sum + acc.balance, 0);
       
       months.push({
         month: monthStr,
@@ -365,9 +377,7 @@ export class DashboardComponent implements OnInit {
           fill: true
         }
       ]
-    };
-
-    this.balanceTrendsChartData = {
+    };    this.balanceTrendsChartData = {
       labels: months.map(m => m.month),
       datasets: [{
         label: 'Total Balance ($)',

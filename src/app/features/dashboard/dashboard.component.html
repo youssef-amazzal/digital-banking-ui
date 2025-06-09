@@ -1,5 +1,4 @@
-<div class="page-wrapper">
-  <!-- Page Header -->
+<div class="page-wrapper">  <!-- Page Header -->
   <div class="page-header">
     <div class="row">
       <div class="col">
@@ -334,12 +333,11 @@
                    class="d-flex align-items-center mb-2 recent-item">
                 <div class="avatar bg-primary text-white me-2">
                   {{ customer.name.charAt(0).toUpperCase() }}
-                </div>
-                <div class="flex-grow-1">
+                </div>                <div class="flex-grow-1">
                   <div class="fw-medium small">{{ customer.name }}</div>
                   <small class="text-muted">ID: {{ customer.id }}</small>
                 </div>
-                <a [routerLink]="['/customers', customer.id]" class="btn btn-sm btn-outline-primary">
+                <a [routerLink]="['/customers', customer.id, 'accounts']" class="btn btn-sm btn-outline-primary">
                   <i class="bi bi-arrow-right"></i>
                 </a>
               </div>
