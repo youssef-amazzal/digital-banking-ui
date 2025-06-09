@@ -281,3 +281,139 @@
 .bento-item:nth-child(6) { animation-delay: 0.6s; }
 .bento-item:nth-child(7) { animation-delay: 0.7s; }
 .bento-item:nth-child(8) { animation-delay: 0.8s; }
+
+/* Chart Cards Styling */
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  padding: 0.75rem 1rem;
+}
+
+.card-header h6 {
+  color: #495057;
+  font-weight: 600;
+}
+
+/* Chart Container Styling */
+.chart-container {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+/* Performance Metrics Styling */
+.performance-metric {
+  transition: transform 0.2s ease-in-out;
+}
+
+.performance-metric:hover {
+  transform: translateY(-2px);
+}
+
+/* Risk Assessment Progress Bars */
+.progress {
+  background-color: #e9ecef;
+  border-radius: 4px;
+}
+
+.progress-bar {
+  transition: width 0.6s ease;
+}
+
+/* Key Performance Indicators Styling */
+.kpi-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.kpi-value {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.kpi-label {
+  font-size: 0.875rem;
+  opacity: 0.9;
+}
+
+/* Chart Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeInUp 0.6s ease-out;
+  animation-fill-mode: both;
+}
+
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Responsive Chart Heights */
+@media (max-width: 768px) {
+  .chart-container {
+    height: 250px;
+  }
+}
+
+@media (max-width: 576px) {
+  .chart-container {
+    height: 200px;
+  }
+}
+
+/* Enhanced Card Shadows */
+.card {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  transition: box-shadow 0.15s ease-in-out, transform 0.15s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+/* Dashboard Grid Responsiveness */
+@media (max-width: 1200px) {
+  .col-xl-8 {
+    margin-bottom: 1rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .row.mb-4 {
+    margin-bottom: 2rem !important;
+  }
+}
+
+/* Loading States for Charts */
+.chart-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: #6c757d;
+}
+
+.chart-loading i {
+  font-size: 2rem;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
