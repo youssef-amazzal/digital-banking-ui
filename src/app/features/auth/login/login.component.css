@@ -3,7 +3,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #f8f9fa;
+  width: 750px;
   padding: 20px;
 }
 
@@ -13,7 +14,6 @@
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   width: 100%;
-  max-width: 420px;
   animation: slideUp 0.5s ease-out;
 }
 
