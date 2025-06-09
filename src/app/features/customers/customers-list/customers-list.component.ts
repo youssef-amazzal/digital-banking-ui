@@ -42,21 +42,24 @@ export class CustomersListComponent implements OnInit {
   ngOnInit(): void {
     this.loadCustomers();
   }
-  
-  loadCustomers(): void {
+    loadCustomers(): void {
     this.loading = true;
     this.customerService.getCustomers().subscribe({
       next: (data) => {
         this.customers = data;
         this.loading = false;
       },
-      error: () => {
-        this.notificationService.showError('Error', 'Failed to load customers');
+      error: (error) => {
+        // HttpErrorInterceptor will handle the notification
         this.loading = false;
+        // Only show specific notifications for certain errors
+        if (error.status === 0) {
+          this.notificationService.showError('Connection Error', 'Unable to connect to server');
+        }
       }
     });
   }
-  
+
   onSearch(): void {
     if (!this.searchKeyword.trim()) {
       this.loadCustomers();
@@ -69,8 +72,8 @@ export class CustomersListComponent implements OnInit {
         this.customers = data;
         this.loading = false;
       },
-      error: () => {
-        this.notificationService.showError('Error', 'Failed to search customers');
+      error: (error) => {
+        // HttpErrorInterceptor will handle the notification
         this.loading = false;
       }
     });
@@ -79,7 +82,7 @@ export class CustomersListComponent implements OnInit {
   confirmDelete(customer: Customer): void {
     this.customerToDelete = customer;
   }
-    deleteCustomer(): void {
+  deleteCustomer(): void {
     if (!this.customerToDelete) return;
     
     this.loading = true;
@@ -92,10 +95,17 @@ export class CustomersListComponent implements OnInit {
         this.loadCustomers();
         this.customerToDelete = null;
       },
-      error: () => {
-        this.notificationService.showError('Error', 'Failed to delete customer');
+      error: (error) => {
+        // HttpErrorInterceptor will handle the notification
         this.loading = false;
         this.customerToDelete = null;
+        // Show specific error for business logic failures
+        if (error.status === 409) {
+          this.notificationService.showError(
+            'Cannot Delete Customer', 
+            'Customer has associated accounts and cannot be deleted'
+          );
+        }
       }
     });
   }

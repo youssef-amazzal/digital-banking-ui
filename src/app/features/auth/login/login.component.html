@@ -1,0 +1,115 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">
+        <i class="bi bi-bank"></i>
+      </div>
+      <h2>Digital Banking System</h2>
+      <p class="text-muted">Sign in to your account</p>
+    </div>
+
+    <div class="auth-body">
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Username Field -->
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-person"></i>
+            </span>
+            <input
+              type="text"
+              id="username"
+              class="form-control"
+              formControlName="username"
+              [ngClass]="{ 'is-invalid': submitted && username?.errors }"
+              placeholder="Enter your username"
+              autocomplete="username"
+            />
+          </div>
+          <div *ngIf="submitted && username?.errors" class="invalid-feedback d-block">
+            <div *ngIf="username?.errors?.['required']">Username is required</div>
+          </div>
+        </div>        <!-- Password Field -->
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-lock"></i>
+            </span>
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              class="form-control"
+              formControlName="password"
+              [ngClass]="{ 'is-invalid': submitted && password?.errors }"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+            />
+            <button
+              type="button"
+              class="btn btn-outline-secondary"
+              (click)="togglePasswordVisibility()"
+            >
+              <i [class]="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
+            </button>
+          </div>
+          <div *ngIf="submitted && password?.errors" class="invalid-feedback d-block">
+            <div *ngIf="password?.errors?.['required']">Password is required</div>
+          </div>
+        </div>
+
+        <!-- Remember Me Checkbox -->
+        <div class="form-group">
+          <div class="form-check">
+            <input
+              type="checkbox"
+              id="rememberMe"
+              class="form-check-input"
+              formControlName="rememberMe"
+            />
+            <label for="rememberMe" class="form-check-label">
+              <i class="bi bi-person-check me-1"></i>
+              Remember me
+            </label>
+          </div>
+        </div>
+
+        <!-- Login Button -->
+        <button
+          type="submit"
+          class="btn btn-primary w-100 auth-btn"
+          [disabled]="loading"
+        >
+          <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+          <i *ngIf="!loading" class="bi bi-box-arrow-in-right me-2"></i>
+          {{ loading ? 'Signing In...' : 'Sign In' }}
+        </button>
+      </form>
+    </div>
+
+    <div class="auth-footer">
+      <p class="text-center text-muted">
+        Don't have an account?
+        <button type="button" class="btn btn-link p-0" (click)="navigateToRegister()">
+          Register here
+        </button>
+      </p>
+      
+      <div class="demo-accounts">
+        <small class="text-muted d-block text-center mb-2">Demo Accounts:</small>
+        <div class="demo-account-grid">
+          <div class="demo-account">
+            <strong>Admin:</strong> admin / admin123
+          </div>
+          <div class="demo-account">
+            <strong>Manager:</strong> manager / manager123
+          </div>
+          <div class="demo-account">
+            <strong>User:</strong> user / user123
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

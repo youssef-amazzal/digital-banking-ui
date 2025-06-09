@@ -169,8 +169,18 @@
 </style>
 
 <app-side-navbar></app-side-navbar>
-<div class="main-content">
-  <div class="main-container">
+
+<div class="main-content" [class.auth-layout]="isAuthPage">
+  <div class="main-container" [class.auth-container]="isAuthPage">
     <router-outlet></router-outlet>
   </div>
 </div>
+
+<!-- Session Timeout Modal -->
+<app-session-timeout-modal
+  [isVisible]="showSessionModal"
+  [minutesRemaining]="sessionMinutesRemaining"
+  (extendSession)="onExtendSession()"
+  (logout)="onForceLogout()"
+  (close)="onCloseModal()">
+</app-session-timeout-modal>

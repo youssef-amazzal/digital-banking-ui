@@ -43,7 +43,6 @@ export class CustomerFormComponent implements OnInit {
       this.loadCustomerData(this.customerId);
     }
   }
-
   loadCustomerData(id: number): void {
     this.loading = true;
     this.customerService.getCustomerById(id).subscribe({
@@ -55,9 +54,12 @@ export class CustomerFormComponent implements OnInit {
         this.loading = false;
       },
       error: (error) => {
-        this.notificationService.showError('Error', 'Failed to load customer data');
+        // HttpErrorInterceptor will handle the notification
         this.loading = false;
-        this.router.navigate(['/customers']);
+        // Navigate away only for certain errors
+        if (error.status === 404) {
+          this.router.navigate(['/customers']);
+        }
       }
     });
   }
@@ -79,8 +81,12 @@ export class CustomerFormComponent implements OnInit {
           this.router.navigate(['/customers']);
         },
         error: (error) => {
-          this.notificationService.showError('Error', 'Failed to update customer');
+          // HttpErrorInterceptor will handle the notification
           this.loading = false;
+          // Handle validation errors specifically
+          if (error.status === 422 && error.error?.details) {
+            this.handleValidationErrors(error.error.details);
+          }
         }
       });
     } else {
@@ -90,10 +96,24 @@ export class CustomerFormComponent implements OnInit {
           this.router.navigate(['/customers']);
         },
         error: (error) => {
-          this.notificationService.showError('Error', 'Failed to create customer');
+          // HttpErrorInterceptor will handle the notification
           this.loading = false;
+          // Handle validation errors specifically
+          if (error.status === 422 && error.error?.details) {
+            this.handleValidationErrors(error.error.details);
+          }
         }
       });
+    }
+  }
+
+  private handleValidationErrors(details: any): void {
+    // Handle field-specific validation errors
+    if (details.email) {
+      this.customerForm.get('email')?.setErrors({ 'serverError': details.email });
+    }
+    if (details.name) {
+      this.customerForm.get('name')?.setErrors({ 'serverError': details.name });
     }
   }
 

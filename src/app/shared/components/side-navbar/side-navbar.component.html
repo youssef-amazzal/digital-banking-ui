@@ -1,8 +1,16 @@
-<div class="sidebar collapsed">
+<div class="sidebar collapsed" *ngIf="isAuthenticated">
   <div class="sidebar-header">
     <!-- Bank icon for logo -->
     <i class="bi bi-bank bank-icon"></i>
+    
+    <!-- User info tooltip -->
+    <div class="user-info" *ngIf="currentUser" [title]="currentUser.firstName + ' ' + currentUser.lastName + ' (' + currentUser.role + ')'">
+      <div class="user-avatar">
+        {{ currentUser.firstName.charAt(0).toUpperCase() }}{{ currentUser.lastName.charAt(0).toUpperCase() }}
+      </div>
+    </div>
   </div>
+  
   <ul class="nav-menu">
     <li class="nav-item">
       <a
@@ -34,5 +42,44 @@
         <i class="bi bi-credit-card-fill"></i>
       </a>
     </li>
+    
+    <!-- Admin/Manager only links -->
+    <li class="nav-item" *ngIf="hasAnyRole(['ADMIN', 'MANAGER'])">
+      <a
+        routerLink="/customers/new"
+        routerLinkActive="active"
+        class="nav-link"
+        title="Add Customer"
+      >
+        <i class="bi bi-person-plus-fill"></i>
+      </a>
+    </li>
   </ul>
+  
+  <div class="sidebar-footer">
+    <!-- Logout button -->
+    <button
+      class="nav-link logout-btn"
+      (click)="logout()"
+      title="Logout"
+    >
+      <i class="bi bi-box-arrow-right"></i>
+    </button>
+  </div>
+</div>
+
+<!-- Login prompt when not authenticated -->
+<div class="sidebar collapsed auth-prompt" *ngIf="!isAuthenticated">
+  <div class="sidebar-header">
+    <i class="bi bi-bank bank-icon"></i>
+  </div>
+  
+  <div class="auth-links">
+    <a routerLink="/auth/login" class="nav-link" title="Login">
+      <i class="bi bi-box-arrow-in-right"></i>
+    </a>
+    <a routerLink="/auth/register" class="nav-link" title="Register">
+      <i class="bi bi-person-plus"></i>
+    </a>
+  </div>
 </div>
